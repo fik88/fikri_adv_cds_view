@@ -1,0 +1,71 @@
+<edmx:Edmx
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
+    <edmx:Reference
+        xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Uri="http://sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ZCDFIKRI_ADV3_CDS" xml:lang="en" sap:schema-version="1">
+            <EntityType Name="ZCDFIKRI_ADV1Type" sap:label="CDS View Advance 1" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ebeln"/>
+                </Key>
+                <Property Name="ebeln" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Purchasing Document" sap:quickinfo="Purchasing Document Number"/>
+                <Property Name="bukrs" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Company Code"/>
+            </EntityType>
+            <EntityType Name="ZCDFIKRI_ADV2Type" sap:label="CDS View Advance 2" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ebeln"/>
+                    <PropertyRef Name="ebelp"/>
+                </Key>
+                <Property Name="ebeln" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Purchasing Document" sap:quickinfo="Purchasing Document Number"/>
+                <Property Name="ebelp" Type="Edm.String" Nullable="false" MaxLength="5" sap:display-format="NonNegative" sap:label="Item" sap:quickinfo="Item Number of Purchasing Document"/>
+                <Property Name="matnr" Type="Edm.String" MaxLength="40" sap:display-format="UpperCase" sap:label="Material" sap:quickinfo="Material Number"/>
+                <NavigationProperty Name="to_root" Relationship="ZCDFIKRI_ADV3_CDS.assoc_495651E2EAFD4E18236DF54D3E88A27C" FromRole="FromRole_assoc_495651E2EAFD4E18236DF54D3E88A27C" ToRole="ToRole_assoc_495651E2EAFD4E18236DF54D3E88A27C"/>
+            </EntityType>
+            <EntityType Name="ZCDFIKRI_ADV3Type" sap:label="CDS View Advance 3" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ebeln"/>
+                </Key>
+                <Property Name="ebeln" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Purchasing Document" sap:quickinfo="Purchasing Document Number"/>
+                <NavigationProperty Name="to_item" Relationship="ZCDFIKRI_ADV3_CDS.assoc_6ADA6996624BFC2CA33D6C0516AE2F27" FromRole="FromRole_assoc_6ADA6996624BFC2CA33D6C0516AE2F27" ToRole="ToRole_assoc_6ADA6996624BFC2CA33D6C0516AE2F27"/>
+            </EntityType>
+            <Association Name="assoc_6ADA6996624BFC2CA33D6C0516AE2F27" sap:content-version="1">
+                <End Type="ZCDFIKRI_ADV3_CDS.ZCDFIKRI_ADV3Type" Multiplicity="1" Role="FromRole_assoc_6ADA6996624BFC2CA33D6C0516AE2F27"/>
+                <End Type="ZCDFIKRI_ADV3_CDS.ZCDFIKRI_ADV2Type" Multiplicity="*" Role="ToRole_assoc_6ADA6996624BFC2CA33D6C0516AE2F27"/>
+                <ReferentialConstraint>
+                    <Principal Role="FromRole_assoc_6ADA6996624BFC2CA33D6C0516AE2F27">
+                        <PropertyRef Name="ebeln"/>
+                    </Principal>
+                    <Dependent Role="ToRole_assoc_6ADA6996624BFC2CA33D6C0516AE2F27">
+                        <PropertyRef Name="ebeln"/>
+                    </Dependent>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="assoc_495651E2EAFD4E18236DF54D3E88A27C" sap:content-version="1">
+                <End Type="ZCDFIKRI_ADV3_CDS.ZCDFIKRI_ADV2Type" Multiplicity="1" Role="FromRole_assoc_495651E2EAFD4E18236DF54D3E88A27C"/>
+                <End Type="ZCDFIKRI_ADV3_CDS.ZCDFIKRI_ADV1Type" Multiplicity="*" Role="ToRole_assoc_495651E2EAFD4E18236DF54D3E88A27C"/>
+            </Association>
+            <EntityContainer Name="ZCDFIKRI_ADV3_CDS_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="ZCDFIKRI_ADV1" EntityType="ZCDFIKRI_ADV3_CDS.ZCDFIKRI_ADV1Type" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZCDFIKRI_ADV2" EntityType="ZCDFIKRI_ADV3_CDS.ZCDFIKRI_ADV2Type" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="ZCDFIKRI_ADV3" EntityType="ZCDFIKRI_ADV3_CDS.ZCDFIKRI_ADV3Type" sap:content-version="1"/>
+                <AssociationSet Name="assoc_495651E2EAFD4E18236DF54D3E88A27C" Association="ZCDFIKRI_ADV3_CDS.assoc_495651E2EAFD4E18236DF54D3E88A27C" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ZCDFIKRI_ADV2" Role="FromRole_assoc_495651E2EAFD4E18236DF54D3E88A27C"/>
+                    <End EntitySet="ZCDFIKRI_ADV1" Role="ToRole_assoc_495651E2EAFD4E18236DF54D3E88A27C"/>
+                </AssociationSet>
+                <AssociationSet Name="assoc_6ADA6996624BFC2CA33D6C0516AE2F27" Association="ZCDFIKRI_ADV3_CDS.assoc_6ADA6996624BFC2CA33D6C0516AE2F27" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="ZCDFIKRI_ADV3" Role="FromRole_assoc_6ADA6996624BFC2CA33D6C0516AE2F27"/>
+                    <End EntitySet="ZCDFIKRI_ADV2" Role="ToRole_assoc_6ADA6996624BFC2CA33D6C0516AE2F27"/>
+                </AssociationSet>
+            </EntityContainer>
+            <atom:link
+                xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/ZCDFIKRI_ADV3_CDS/$metadata"/>
+                <atom:link
+                    xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/ZCDFIKRI_ADV3_CDS/$metadata"/>
+                </Schema>
+            </edmx:DataServices>
+        </edmx:Edmx>
